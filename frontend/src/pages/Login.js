@@ -65,26 +65,23 @@ function Login() {
   
   return (
     <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 h-screen  items-center place-items-center">
-      <div className="flex justify-center">
-      <img
-    src={require("../assets/logo.png")}
-    alt=""
-    style={{ height: "200px", width: "auto"}}
+      <div className="grid grid-cols-1 sm:grid-cols-1 mt-4 items-center place-items-center">
+        
+      <div className="flex justify-center ">
+        <img
+          src={require("../assets/logo.png")}
+          alt=""
+          style={{ height: "200px", width: "auto"}}
        />
           </div>
-        <div className="w-full max-w-md space-y-8 p-10 rounded-lg">
-          <div>
-            <img
-              className="mx-auto h-1300 w-auto"
-              src={require("../assets/citelogo.jpg")}
-              alt="Logo"
-              style={{height: "150px", width: "auto"}}
-            />
+        <div style={{border:".5px solid black", boxShadow:"0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",padding:"50px", borderRadius:"10px", marginTop:"2%"}}>
+
+          <div style={{fontSize:"24px", textAlign:"center", marginTop:"0", marginBottom:"5%"}}>
+          <h1><strong>Attendance Checking System</strong></h1>
           </div>
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+          <form className=" space-y-10 " onSubmit={handleSubmit}>
             <div className="-space-y-px rounded-md shadow-sm">
-              <div>
+              <div style={{border:"1px solid blue", margin:"5px", borderRadius:"5px"}}>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
                 </label>
@@ -100,7 +97,7 @@ function Login() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div>
+              <div style={{border:"1px solid blue", margin:"5px", borderRadius:"5px"}}>
                 <label htmlFor="password" className="sr-only">
                   Password
                 </label>
@@ -119,21 +116,7 @@ function Login() {
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
+              
               <div className="text-sm">
                 <span
                   className="font-medium text-indigo-600 hover:text-indigo-500"
@@ -157,15 +140,7 @@ function Login() {
                 </span>
                 Sign in
               </button>
-              <p className="mt-2 text-center text-sm text-gray-600">
-                Or{" "}
-                <span
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  Don't Have an Account, Please{" "}
-                  <Link to="/register"> Register now </Link>
-                </span>
-              </p>
+             
             </div>
           </form>
         </div>

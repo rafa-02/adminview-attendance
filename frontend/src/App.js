@@ -15,6 +15,7 @@ import UserAccount from "./pages/UserAccount";
 
 import Contactadmin from "./buttons/Contactadmin";
 import Contactus from "./buttons/Contactus";
+import Report from "./pages/Report";
 
 const App = () => {
   const [user, setUser] = useState("");
@@ -77,6 +78,7 @@ const App = () => {
             <Route path="setting" element={<Setting />} />
             <Route path="contactadmin" element={<Contactadmin />} />
             <Route path="Contactus" element={<Contactus />} />
+            <Route path="report" element={<Report />} />
           </Route>
           <Route path="*" element={<NoPageFound />} />
         </Routes>

@@ -88,24 +88,51 @@ function Teacher() {
     setTeachers(loadTeacherData);
   }, []);
 
+   // State for the search query
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Function to filter teachers based on the search query
+  const filteredTeachers = teachers.filter((teacher) =>
+    teacher.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // State to manage the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTeacher, setSelectedTeacher] = useState(null);
+
+  // Function to open the modal and set the selected teacher
+  const openTeacherModal = (teacher) => {
+    setIsModalOpen(true);
+    setSelectedTeacher(teacher);
+  };
+
+  // Function to close the modal
+  const closeTeacherModal = () => {
+    setIsModalOpen(false);
+    setSelectedTeacher(null);
+  };
+  
   return (
     <div className="col-span-12 lg:col-span-10  flex justify-center">
       <div className=" flex flex-col gap-5 w-11/12">
-        <h1 className="mb-10" style={{ fontWeight: "bold", marginLeft: "30px", fontSize: "50px", color: "#333" }}>
+        <h1 className="b-10" style={{ fontWeight: "bold", textAlign:"center", fontSize: "50px", color: "#333" }}>
           Teachers Info
         </h1>
-        <div className="mt-3 flex gap-4">
+        <div className="mt-2 flex gap-1">
           <input
             type="text"
             placeholder="Name"
             value={newTeacher.name}
+            style={{margin:"0 2px", border:"none", border:"1px solid black",borderRadius:"5px", textAlign:"center"}}
             onChange={(e) =>
               setNewTeacher({ ...newTeacher, name: e.target.value })
             }
           />
+
           <input
             type="text"
             placeholder="Course"
+            style={{margin:"0 2px", border:"none", border:"1px solid black",borderRadius:"5px", textAlign:"center"}}
             value={newTeacher.course}
             onChange={(e) =>
               setNewTeacher({ ...newTeacher, course: e.target.value })
@@ -114,6 +141,7 @@ function Teacher() {
           <input
             type="text"
             placeholder="Subject"
+            style={{margin:"0 2px", border:"none", border:"1px solid black",borderRadius:"5px", textAlign:"center"}}
             value={newTeacher.subject}
             onChange={(e) =>
               setNewTeacher({ ...newTeacher, subject: e.target.value })
@@ -125,6 +153,27 @@ function Teacher() {
           >
             Add Teacher
           </button>
+
+          
+          <input
+            type="text"
+            placeholder="Search by Name"
+            style={{margin:"0 2px", border:"none", border:"1px solid black",borderRadius:"5px", textAlign:"center"}}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <img
+            alt="search-icon"
+            src={require("../assets/search-icon.png")}
+            style={{
+              position: "absolute",
+              top: "31%",
+              right: "110px",
+              transform: "translateY(-50%)",
+              width: "20px", // Adjust the image width as needed
+              height: "20px", // Adjust the image height as needed
+            }}
+          />
         </div>
         <div className="overflow-x-auto rounded-lg border bg-white border-gray-200">
           <table className="min-w-[700px] divide-y-2 divide-gray-200 text-sm">
@@ -148,7 +197,7 @@ function Teacher() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {teachers.map((teacher) => (
+              {filteredTeachers.map((teacher) => (
                 <tr key={teacher.id}>
                   <td className="whitespace-nowrap px-10 py-2 text-gray-900">
                     {teacher.id}
@@ -201,7 +250,7 @@ function Teacher() {
                       teacher.subject
                     )}
                   </td>
-                  <td className="whitespace-nowrap px-10 py-2 text-gray-700">
+                  <td className="whitespace-nowrap px-5 py-2 text-gray-700">
                     {editTeacher && editTeacher.id === teacher.id ? (
                       <button
                         onClick={() => saveEditedTeacher()}
@@ -219,10 +268,16 @@ function Teacher() {
                         </button>
                         <button
                           onClick={() => confirmDeleteTeacher(teacher.id)}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 text-xs rounded"
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold p-2 text-xs rounded mr-2"
                         >
                           Delete
                         </button>
+                        <button
+                  onClick={() => openTeacherModal(teacher)} // Open the modal with the selected teacher
+                  className="bg-blue-500 hover.bg-blue-700 text-white font-bold p-2 text-xs rounded mr-2"
+                >
+                  View
+                </button>
                       </>
                     )}
                   </td>
@@ -247,6 +302,23 @@ function Teacher() {
               onClick={() => setDeleteTeacherId(null)}
             >
               No
+            </button>
+          </div>
+        </div>
+      )}
+
+{isModalOpen && selectedTeacher && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 text-xl">
+          <div className="bg-white p-10 rounded shadow-lg text-center">
+            <p className="mb-2"><strong>Teacher Information</strong></p>
+            <p>Name: {selectedTeacher.name}</p>
+            <p>Course: {selectedTeacher.course}</p>
+            <p>Subjects: {selectedTeacher.subject}</p>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 text-xs rounded mt-6 mb-0"
+              onClick={closeTeacherModal}
+            >
+              Close
             </button>
           </div>
         </div>

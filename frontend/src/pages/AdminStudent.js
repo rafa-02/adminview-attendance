@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./AdminStudent.css";
 
 function AdminStudent() {
   const initialStudents = JSON.parse(localStorage.getItem("students")) || [];
@@ -7,6 +8,7 @@ function AdminStudent() {
   const [editing, setEditing] = useState(null);
   const [newStudent, setNewStudent] = useState({ id: null, name: "", section: "", contact: "" });
   const [selectedSection, setSelectedSection] = useState("BSIT 1"); 
+  const [searchQuery, setSearchQuery] = useState("");
 
   const addStudent = () => {
     if (newStudent.name && newStudent.contact) {
@@ -45,30 +47,41 @@ function AdminStudent() {
     localStorage.setItem("students", JSON.stringify(students));
   }, [students]);
 
+  const filteredStudents = students.filter((student) =>
+    student.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="student-container" style={{ marginLeft: "90px", width: "800px" }}>
-      <h1 className="b-10" style={{ fontWeight: "bold", marginLeft: "90px", fontSize: "50px", color: "#333" }}>
+    <div className="student-container" style={{ marginLeft: "90px", width: "850px" }}>
+      <h1 className="b-10" style={{ fontWeight: "bold", textAlign:"center", fontSize: "50px", color: "#333" }}>
         Student List
       </h1>
       <div className="add-student-form">
-        <h2>Add Student</h2>
+        <h2><strong>Add Student</strong></h2>
         <input
           type="text"
           placeholder="Name"
+          style={{margin:"0 2px", border:"none", border:"1px solid black",borderRadius:"5px", textAlign:"center"}}
           value={newStudent.name}
           onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
         />
         <input
           type="text"
           placeholder="Contact Number"
+          style={{margin:"0 2px", border:"none", border:"1px solid black",borderRadius:"5px", textAlign:"center"}}
           value={newStudent.contact}
           onChange={(e) => setNewStudent({ ...newStudent, contact: e.target.value })}
         />
+
+       
+
         <select
           value={selectedSection}
           onChange={(e) => setSelectedSection(e.target.value)}
-          style={{ padding: "6px", borderRadius: "4px", border: "1px solid #ccc" }}
+          style={{ margin:"0 2px", padding: "6px", borderRadius: "4px", border: "1px solid black", width: "100px" }}
         >
+
+      
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((section) => (
             <option key={section} value={`BSIT ${section}`}>
               BSIT {section}
@@ -90,6 +103,26 @@ function AdminStudent() {
             Add
           </button>
         )}
+
+        <input
+          type="text"
+          placeholder="Search by Name"
+          value={searchQuery}
+          style={{margin:"0 12px", border:"none", borderRadius:"5px", textAlign:"center"}}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+         <img
+          alt="search-icon"
+          src={require("../assets/search-icon.png")}
+          style={{
+            position: "absolute",
+            top: "30.5%",
+            right: "220px",
+            transform: "translateY(-50%)",
+            width: "20px", // Adjust the image width as needed
+            height: "20px", // Adjust the image height as needed
+         }}
+        />
       </div>
 
       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((section) => (
@@ -150,7 +183,7 @@ function AdminStudent() {
                 </tr>
               </thead>
               <tbody>
-                {students
+                {filteredStudents
                   .filter((student) => student.section === `BSIT ${section}`)
                   .map((student) => (
                     <tr key={student.id}>
@@ -178,6 +211,19 @@ function AdminStudent() {
           </div>
         </div>
       ))}
+
+      <div class="center">
+        <div class="pagination">
+          <a href="#">&laquo;</a>
+          <a href="#" class="active">1</a>
+          <a href="#" >2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">5</a>
+          <a href="#">6</a>
+          <a href="#">&raquo;</a>
+        </div>
+      </div>
     </div>
   );
 }
